@@ -3,14 +3,10 @@
 ![QA](https://github.com/jgivoni/flysystem-cache-adapter/actions/workflows/ci.yml/badge.svg)
 
 ## Changelog highlights
-- **3.2.1**
+- **3.2.2**
   - [Purge cache on unsuccessful operations](https://github.com/jgivoni/flysystem-cache-adapter/issues/14)
-- **3.2**
-  - [Support for psr/cache v2](https://github.com/jgivoni/flysystem-cache-adapter/issues/10)
 - 3.1.2
   - [Bugfix when retrieving metadata on file which is a cached folder](https://github.com/jgivoni/flysystem-cache-adapter/issues/11)
-- 3.1.1
-  - [Development support for Symfony 7](https://github.com/jgivoni/flysystem-cache-adapter/issues/8)
 - **3.1**
   - [Support for PHP 8.3](https://github.com/jgivoni/flysystem-cache-adapter/issues/6)
 
