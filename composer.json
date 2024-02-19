@@ -8,6 +8,16 @@
             "email": "jakob@givoni.dk"
         }
     ],
+    "keywords": [
+        "flysystem",
+        "filesystem",
+        "cache",
+        "adapter",
+        "decorator",
+        "metadata",
+        "performance",
+        "PSR-6"
+    ],
     "autoload": {
         "psr-4": {
             "jgivoni\\Flysystem\\Cache\\": "src/"
@@ -33,5 +43,8 @@
         "league/flysystem-memory": "^3.15",
         "symfony/cache": "^6.3|^7.0",
         "league/flysystem-aws-s3-v3": "^3.15"
+    },
+    "suggest": {
+        "symfony/cache": "Ready to use adapters for the most common caching backends"
     }
 }
