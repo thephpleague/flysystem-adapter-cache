@@ -3,6 +3,8 @@
 ![QA](https://github.com/jgivoni/flysystem-cache-adapter/actions/workflows/ci.yml/badge.svg)
 
 ## Changelog highlights
+- **3.3**
+  - [Support for PHP 8.4](https://github.com/jgivoni/flysystem-cache-adapter/issues/19)
 - **3.2.2**
   - [Purge cache on unsuccessful operations](https://github.com/jgivoni/flysystem-cache-adapter/issues/14)
 - 3.1.2
