@@ -51,11 +51,8 @@ class GetChecksum_Test extends CacheTestCase
      */
     public function with_mock_aws_adapter(string $path, string $expectedChecksum): void
     {
-        /** @var AwsS3V3Adapter&MockInterface $awsAdapter */
-        $awsAdapter = Mockery::mock(AwsS3V3Adapter::class);
-        $awsAdapter->shouldReceive([
-            'checksum' => 'my-aws-etag',
-        ]);
+        $awsAdapter = $this->createMock(AwsS3V3Adapter::class);
+        $awsAdapter->method('checksum')->with('non-cached-file')->willReturn('my-aws-etag');
 
         $this->cacheAdapter = new CacheAdapter($awsAdapter, $this->cachePool);
 
