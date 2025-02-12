@@ -128,7 +128,6 @@ trait CacheItemsTrait
         $item = $this->getCacheItem($path);
 
         if ($item->isHit()) {
-            /** @var FileAttributes $fileAttributes */
             $fileAttributes = $item->get();
 
             if (!$fileAttributes instanceof FileAttributes) {

@@ -37,7 +37,7 @@
     "require-dev": {
         "ext-zend-opcache": "*",
         "ext-xdebug": "*",
-        "phpstan/phpstan": "^1.10",
+        "phpstan/phpstan": "^2.1",
         "phpunit/phpunit": "^10.3",
         "mockery/mockery": "^1.6",
         "league/flysystem-adapter-test-utilities": "^3.15",

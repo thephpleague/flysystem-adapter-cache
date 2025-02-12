@@ -2,6 +2,7 @@
 
 namespace jgivoni\Flysystem\Cache;
 
+use ErrorException;
 use League\Flysystem\CalculateChecksumFromStream;
 use League\Flysystem\ChecksumAlgoIsNotSupported;
 use League\Flysystem\ChecksumProvider;
@@ -323,6 +324,11 @@ class CacheAdapter implements FilesystemAdapter, ChecksumProvider
     public function checksum(string $path, Config $config): string
     {
         $algo = $config->get('checksum_algo');
+
+        if (isset($algo) && !is_string($algo)) {
+            throw new ErrorException('"checksum_algo" in $config must be a string.');
+        }
+
         $metadataKey = isset($algo) ? 'checksum_' . $algo : 'checksum';
 
         $attributeAccessor = function (StorageAttributes $storageAttributes) use ($metadataKey) {
