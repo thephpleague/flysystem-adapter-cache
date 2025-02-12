@@ -1,0 +1,6 @@
+# Source this file with `. ./aliases` to use the following shortcuts when developing:
+alias d='docker compose exec -it php "$@"'
+alias php='d php "$@"'
+alias composer='d composer "$@"'
+alias phpstan='d vendor/bin/phpstan analyze "$@"'
+alias phpunit='d vendor/bin/phpunit "$@"'

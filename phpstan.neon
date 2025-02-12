@@ -1,12 +1,6 @@
 parameters:
-    level: 9
+    level: 10
     
     paths:
         - src
         - tests
-
-    # ignoreErrors:
-    #     - "/no value type specified in iterable type array\\.$/"
-    #     - "/is always (true|false)\\.$/"
-
-    reportUnmatchedIgnoredErrors: false

@@ -117,8 +117,8 @@ trait CacheItemsTrait
      * Returns FileAttributes from cache if desired attribute is found,
      * or loads the desired missing attribute from the adapter and merges it with the cached attributes.
      *
-     * @param Closure $loader Returns FileAttributes with the desired attribute loaded from adapter
-     * @param Closure $attributeAccessor Returns value of desired attribute from cached item
+     * @param Closure(): FileAttributes $loader Returns FileAttributes with the desired attribute loaded from adapter
+     * @param Closure(FileAttributes): mixed $attributeAccessor Returns value of desired attribute from cached item
      */
     protected function getFileAttributes(
         string $path,

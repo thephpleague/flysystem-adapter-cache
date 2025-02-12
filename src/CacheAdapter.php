@@ -246,10 +246,10 @@ class CacheAdapter implements FilesystemAdapter, ChecksumProvider
         try {
             return $this->getFileAttributes(
                 path: $path,
-                loader: function () use ($path) {
+                loader: function () use ($path): FileAttributes {
                     return $this->adapter->visibility($path);
                 },
-                attributeAccessor: function (FileAttributes $fileAttributes) {
+                attributeAccessor: function (FileAttributes $fileAttributes): ?string {
                     return $fileAttributes->visibility();
                 },
             );
@@ -266,10 +266,10 @@ class CacheAdapter implements FilesystemAdapter, ChecksumProvider
         try {
             return $this->getFileAttributes(
                 path: $path,
-                loader: function () use ($path) {
+                loader: function () use ($path): FileAttributes {
                     return $this->adapter->mimeType($path);
                 },
-                attributeAccessor: function (FileAttributes $fileAttributes) {
+                attributeAccessor: function (FileAttributes $fileAttributes): ?string {
                     return $fileAttributes->mimeType();
                 },
             );
@@ -286,10 +286,10 @@ class CacheAdapter implements FilesystemAdapter, ChecksumProvider
         try {
             return $this->getFileAttributes(
                 path: $path,
-                loader: function () use ($path) {
+                loader: function () use ($path): FileAttributes {
                     return $this->adapter->lastModified($path);
                 },
-                attributeAccessor: function (FileAttributes $fileAttributes) {
+                attributeAccessor: function (FileAttributes $fileAttributes): ?int {
                     return $fileAttributes->lastModified();
                 },
             );
@@ -306,10 +306,10 @@ class CacheAdapter implements FilesystemAdapter, ChecksumProvider
         try {
             return $this->getFileAttributes(
                 path: $path,
-                loader: function () use ($path) {
+                loader: function () use ($path): FileAttributes {
                     return $this->adapter->fileSize($path);
                 },
-                attributeAccessor: function (FileAttributes $fileAttributes) {
+                attributeAccessor: function (FileAttributes $fileAttributes): ?int {
                     return $fileAttributes->fileSize();
                 },
             );
@@ -331,22 +331,28 @@ class CacheAdapter implements FilesystemAdapter, ChecksumProvider
 
         $metadataKey = isset($algo) ? 'checksum_' . $algo : 'checksum';
 
-        $attributeAccessor = function (StorageAttributes $storageAttributes) use ($metadataKey) {
+        $attributeAccessor = function (StorageAttributes $storageAttributes) use ($metadataKey): ?string {
             if (\is_a($this->adapter, 'League\Flysystem\AwsS3V3\AwsS3V3Adapter')) {
                 // Special optimization for AWS S3, but won't break if adapter not installed
                 $etag = $storageAttributes->extraMetadata()['ETag'] ?? \null;
-                if (isset($etag)) {
-                    $checksum = trim($etag, '" ');
+                if (is_string($etag)) {
+                    return trim($etag, '" ');
                 }
             }
 
-            return $checksum ?? $storageAttributes->extraMetadata()[$metadataKey] ?? \null;
+            $checksum = $storageAttributes->extraMetadata()[$metadataKey] ?? \null;
+
+            if (isset($checksum) && !is_string($checksum)) {
+                throw new RuntimeException('Checksum must be a string.');
+            }
+
+            return $checksum;
         };
 
         try {
             $fileAttributes = $this->getFileAttributes(
                 path: $path,
-                loader: function () use ($path, $config, $metadataKey) {
+                loader: function () use ($path, $config, $metadataKey): FileAttributes {
                     // This part is "mirrored" from FileSystem class to provide the fallback mechanism
                     // and be able to cache the result
                     try {
@@ -363,11 +369,11 @@ class CacheAdapter implements FilesystemAdapter, ChecksumProvider
                 },
                 attributeAccessor: $attributeAccessor
             );
+
+            return $attributeAccessor($fileAttributes) ?? '';
         } catch (RuntimeException $e) {
             throw new UnableToProvideChecksum($e->getMessage(), $path, $e);
         }
-
-        return $attributeAccessor($fileAttributes);
     }
 
     /**
